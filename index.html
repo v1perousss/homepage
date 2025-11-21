@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>funni homepage</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-dark': '#333333',
+                        'secondary-dark': '#444444',
+                        'btn-peek': '#7567cc', // Purple/Blue
+                        'btn-suck': '#ed6c73', // Red/Pink
+                        'btn-watch': '#8fcc67', // Green
+                        'btn-check': '#f3df4b', // Yellow
+                    },
+                    fontFamily: {
+                        mono: ['Roboto Mono', 'monospace'],
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- Load a monospaced font for the authentic look -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles to enhance the aesthetic and ensure elements look right */
+        .glow-text {
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+        }
+        .main-content {
+            /* Keep content centered */
+            position: relative;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="bg-primary-dark text-gray-100 min-h-screen flex flex-col justify-center items-center p-4 font-mono">
+
+    <!-- TOP RIGHT: Date and Time Display -->
+    <div id="clock-display" class="fixed top-2 right-4 text-xs text-gray-400 opacity-80 glow-text">
+        <!-- Content added by JavaScript -->
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-content w-full max-w-2xl">
+        
+        <!-- The ASCII Face -->
+        <p class="text-6xl mb-4 glow-text">(. _ .)</p>
+
+        <!-- Main Heading -->
+        <h1 class="text-4xl sm:text-5xl font-normal mb-2 leading-tight">
+            I don't know <span class="font-bold text-white">what</span> <br>the hell is going on.
+        </h1>
+
+        <!-- Subtext/Search Tip -->
+        <p class="text-sm text-gray-400 mb-8">
+            Good luck searching for it though.<br>
+            Here's a useless number that Google has no result for. Try: <span class="text-gray-300 italic">Bing. Just kidding</span>
+        </p>
+        
+        <!-- Search Bar -->
+        <div class="mb-10 w-full flex justify-center">
+            <input 
+                type="text" 
+                id="search-input" 
+                placeholder="Type your search query here..." 
+                class="w-full max-w-md p-3 rounded-l-lg border-2 border-secondary-dark bg-secondary-dark text-white focus:outline-none focus:border-btn-peek transition duration-200"
+                onkeypress="if(event.key === 'Enter') handleSearch()"
+            >
+            <button 
+                onclick="handleSearch()" 
+                class="bg-btn-peek text-black font-bold p-3 rounded-r-lg hover:bg-opacity-90 transition duration-200"
+            >
+                Search
+            </button>
+        </div>
+
+
+        <!-- Main Buttons/Actions (can be re-purposed as quick searches or actions) -->
+        <div class="flex flex-wrap justify-center gap-4 mb-8">
+            <button onclick="handleSearch('Peek')" class="p-3 rounded-lg text-sm font-bold bg-btn-peek text-black hover:opacity-90 transition duration-150 shadow-md">Peek It!</button>
+            <button onclick="handleSearch('Suck')" class="p-3 rounded-lg text-sm font-bold bg-btn-suck text-black hover:opacity-90 transition duration-150 shadow-md">Suck It!</button>
+            <button onclick="handleSearch('Watch')" class="p-3 rounded-lg text-sm font-bold bg-btn-watch text-black hover:opacity-90 transition duration-150 shadow-md">Watch It!</button>
+            <button onclick="handleSearch('Check')" class="p-3 rounded-lg text-sm font-bold bg-btn-check text-black hover:opacity-90 transition duration-150 shadow-md">Check It!</button>
+        </div>
+        
+        <!-- Clickable Link List (UPDATED TO 4 COLUMNS) -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 justify-items-start gap-x-6 gap-y-2 mb-10 text-left w-fit mx-auto">
+            <!-- Column 1 -->
+            <div class="flex flex-col space-y-1">
+                <a href="https://github.com" target="_blank" class="text-gray-400 hover:text-white transition duration-150">Github</a>
+                <a href="https://youtube.com" target="_blank" class="text-gray-400 hover:text-white transition duration-150">Youtube</a>
+            </div>
+            
+            <!-- Column 2 -->
+            <div class="flex flex-col space-y-1">
+                <a href="https://www.deviantart.com/" target="_blank" class="text-gray-400 hover:text-white transition duration-150">deviantart</a>
+                <a href="https://www.crunchyroll.com/" target="_blank" class="text-gray-400 hover:text-white transition duration-150">Crunchyroll</a>
+            </div>
+            
+            <!-- Column 3 -->
+            <div class="flex flex-col space-y-1">
+                <a href="https://mail.google.com" target="_blank" class="text-gray-400 hover:text-white transition duration-150">Mail</a>
+                <a href="https://docs.google.com/spreadsheets" target="_blank" class="text-gray-400 hover:text-white transition duration-150">Spreadsheet</a>
+            </div>
+
+            <!-- Column 4 (New) -->
+            <div class="flex flex-col space-y-1">
+                <a href="https://hrisitosense.top/" target="_blank" class="text-gray-400 hover:text-white transition duration-150">hrisito</a>
+                <a href="https://store.steampowered.com/" target="_blank" class="text-gray-400 hover:text-white transition duration-150">Steam</a>
+            </div>
+        </div>
+
+        <!-- Quote Block -->
+        <div class="bg-secondary-dark rounded-lg p-3 sm:p-4 inline-block mx-auto mt-6 shadow-xl">
+            <p class="text-sm text-gray-300 italic">He who is not bold enough to be stared at from across the abyss is not bold enough to stare into it himself</p>
+        </div>
+    </div>
+
+    <script>
+        // Helper function for exponential backoff during API calls
+        const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+        // --- 1. Date and Time Clock Function (Top Right) ---
+        function updateClock() {
+            const now = new Date();
+            
+            // Format time (e.g., 04:24 PM)
+            const timeOptions = { hour: '2-digit', minute: '2-digit', hour12: true };
+            const timeString = now.toLocaleTimeString('en-US', timeOptions);
+            
+            // Format date (e.g., Thu, 20 Nov)
+            const dateOptions = { weekday: 'short', day: '2-digit', month: 'short' };
+            const dateString = now.toLocaleDateString('en-US', dateOptions);
+
+            const clockDisplay = document.getElementById('clock-display');
+            clockDisplay.innerHTML = `
+                <div class="flex flex-col items-end">
+                    <span>${dateString}</span>
+                    <span class="text-base font-bold">${timeString}</span>
+                </div>
+            `;
+        }
+
+        // Update the clock every second
+        setInterval(updateClock, 1000);
+        // Initial call to display immediately
+        updateClock();
+
+        // --- 2. Search Functionality ---
+        function handleSearch(quickQuery = null) {
+            const inputElement = document.getElementById('search-input');
+            let query = quickQuery || inputElement.value.trim();
+
+            if (query) {
+                // Use DuckDuckGo search URL
+                const searchUrl = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`;
+                // Open the search result in a new tab
+                window.open(searchUrl, '_blank');
+                
+                // Clear the input field only if it wasn't a quick query button click
+                if (!quickQuery) {
+                    inputElement.value = '';
+                }
+            } else if (!quickQuery) {
+                // Provide feedback if the user presses search with an empty field
+                inputElement.placeholder = "Please enter a query...";
+                setTimeout(() => inputElement.placeholder = "Type your search query here...", 2000);
+            }
+        }
+    </script>
+</body>
+</html>
